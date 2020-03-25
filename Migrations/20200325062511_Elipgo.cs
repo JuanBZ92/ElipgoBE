@@ -7,24 +7,6 @@ namespace ElipgoBE.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Articles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Price = table.Column<float>(nullable: false),
-                    Total_In_Shelf = table.Column<int>(nullable: false),
-                    Total_In_Vault = table.Column<int>(nullable: false),
-                    Store_Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Articles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Login",
                 columns: table => new
                 {
@@ -45,13 +27,42 @@ namespace ElipgoBE.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    Address = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stores", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Articles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Price = table.Column<float>(nullable: true),
+                    Total_In_Shelf = table.Column<int>(nullable: true),
+                    Total_In_Vault = table.Column<int>(nullable: true),
+                    Store_Id = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Articles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Articles_Stores_Store_Id",
+                        column: x => x.Store_Id,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_Store_Id",
+                table: "Articles",
+                column: "Store_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

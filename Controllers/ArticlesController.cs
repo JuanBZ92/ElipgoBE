@@ -86,6 +86,12 @@ namespace ElipgoBE.Models
         [HttpPost("AddArticle")]
         public async Task<ActionResult<ArticlesResponseModel>> AddArticle(ArticlesInformation articlesInformation)
         {
+            var findArticle = _context.Stores.Find(articlesInformation.Store_Id);
+            if (findArticle == null)
+            {
+                return NotFound();
+            }
+
             try
             {
                 var response = await _articlesServices.AddArticle(articlesInformation);
