@@ -8,18 +8,13 @@ namespace ElipgoBE.Models
 {
     public class StoresResponseModel
     {
-        public IList<StoresInformation> Stores { get; set; }
+        public List<StoresInformation> Stores { get; set; }
         public bool Success { get; set; }
         public int Total_elements { get; set; }
-        public static StoresResponseModel Map(IList<StoresInformation> storesInformation)
+        public static StoresResponseModel Map(List<StoresInformation> storesInformation)
         {
             StoresResponseModel response = new StoresResponseModel();
-            IList<StoresInformation> stores = new List<StoresInformation>();
-            foreach(StoresInformation information in storesInformation)
-            {
-                stores.Add(StoresInformation.Map(information));
-            }
-            response.Stores = stores;
+            response.Stores = storesInformation;
             response.Success = true;
             response.Total_elements = storesInformation.Count;
             return response;
@@ -29,9 +24,7 @@ namespace ElipgoBE.Models
     public class StoresInformation
     {
         public int Id { get; set; }
-        [Required]
         public string Address { get; set; }
-        [Required]
         public string Name { get; set; }
         
         public static StoresInformation Map(StoresInformation storesInformation)
@@ -41,6 +34,16 @@ namespace ElipgoBE.Models
                 Id = storesInformation.Id,
                 Address = storesInformation.Address,
                 Name = storesInformation.Name
+            };
+        }
+
+        public static StoresInformation MapUpdate(StoresInformation storesInformation, StoresInformation originalInformation)
+        {
+            return new StoresInformation
+            {
+                Id = storesInformation.Id,
+                Address = storesInformation.Address != string.Empty ? storesInformation.Address : originalInformation.Address,
+                Name = storesInformation.Name != string.Empty ? storesInformation.Name : originalInformation.Name
             };
         }
     }

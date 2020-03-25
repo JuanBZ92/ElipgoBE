@@ -20,9 +20,9 @@ namespace ElipgoBE.Services
             return await _storesDataSet.GetAllStores();
         }
 
-        public async Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation)
+        public async Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation, StoresInformation originalInformation)
         {
-            return await _storesDataSet.UpdateStore(storesInformation);
+            return await _storesDataSet.UpdateStore(storesInformation, originalInformation);
         }
 
         public async Task<StoresResponseModel> AddStore(StoresInformation storesInformation)

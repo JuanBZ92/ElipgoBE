@@ -12,7 +12,6 @@ namespace ElipgoBE.Controllers
 {
     [Route("api/services/[controller]")]
     [ApiController]
-    [Produces("application/json")]
     public class StoresController : ControllerBase
     {
         public readonly StoresServices _storeServices;
@@ -26,7 +25,7 @@ namespace ElipgoBE.Controllers
 
         // GET: api/StoresInformations
         [HttpGet]
-        public async Task<IActionResult> GetStoresInformation()
+        public async Task<ActionResult<StoresResponseModel>> GetStoresInformation()
         {
             try
             {
@@ -37,20 +36,6 @@ namespace ElipgoBE.Controllers
                 return BadRequest(ErrorResponse.Map(e));
             }
         }
-
-        /*// GET: api/StoresInformations/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StoresInformation>> GetStoresInformation(int id)
-        {
-            var storesInformation = await _context.StoresInformation.FindAsync(id);
-
-            if (storesInformation == null)
-            {
-                return NotFound();
-            }
-
-            return storesInformation;
-        }*/
 
         // PUT: api/StoresInformations/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -66,8 +51,8 @@ namespace ElipgoBE.Controllers
             _context.Entry(findStore).State = EntityState.Detached;
             try
             {
-                var response = await _storeServices.UpdateStore(storesInformation);
-                return Ok(response);
+                var response = await _storeServices.UpdateStore(storesInformation, findStore);
+                return new OkObjectResult(response);
             }
             catch (Exception e)
             {
@@ -79,7 +64,7 @@ namespace ElipgoBE.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("AddStore")]
-        public async Task<IActionResult> AddStore(StoresInformation storesInformation)
+        public async Task<ActionResult<StoresResponseModel>> AddStore(StoresInformation storesInformation)
         {
             try
             {

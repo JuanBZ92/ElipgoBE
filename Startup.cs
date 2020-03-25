@@ -41,18 +41,18 @@ namespace ElipgoBE
                                 .AllowAnyOrigin();
                 });
             });
-            services.AddMvc().AddMvcOptions(opt => opt.EnableEndpointRouting = false);
+
+            var connection = @"Server=DESKTOP-DV1AH5C\SQLEXPRESS;Database=ElipgoDB;Trusted_Connection=True;";
+            services.AddDbContext<MyDbContext>(options =>
+                    options.UseSqlServer(connection));
+
+            services.AddMvc().AddNewtonsoftJson();
             services.AddScoped<StoresServices>();
             services.AddScoped<StoresDataSet>();
             services.AddScoped<ArticlesServices>();
             services.AddScoped<ArticlesDataSet>();
             services.AddScoped<LoginService>();
             services.AddScoped<LoginDataSet>();
-
-            var connection = @"Server=DESKTOP-DV1AH5C\SQLEXPRESS;Database=ElipgoDB;Trusted_Connection=True;";
-            services.AddDbContext<MyDbContext>(options =>
-                    options.UseSqlServer(connection));
-
             services.AddControllers().AddNewtonsoftJson();
         }
 
@@ -69,8 +69,6 @@ namespace ElipgoBE
             app.UseCors(AllowedCors);
 
             app.UseAuthorization();
-
-            app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {

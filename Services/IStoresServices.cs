@@ -9,7 +9,7 @@ namespace ElipgoBE.Services
     public interface IStoresServices
     {
         Task<StoresResponseModel> GetAllStores();
-        Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation);
+        Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation, StoresInformation originalInformation);
         Task<StoresResponseModel> AddStore(StoresInformation storesInformation);
     }
 }

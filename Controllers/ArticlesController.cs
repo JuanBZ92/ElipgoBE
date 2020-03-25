@@ -22,7 +22,7 @@ namespace ElipgoBE.Models
 
         // GET: api/ArticlesInformations
         [HttpGet]
-        public async Task<IActionResult> GetArticlesInformation()
+        public async Task<ActionResult<ArticlesResponseModel>> GetArticlesInformation()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace ElipgoBE.Models
 
         // GET: api/ArticlesInformations/5
         [HttpGet("stores/{id}")]
-        public async Task<IActionResult> GetArticlesInformation(int id)
+        public async Task<ActionResult<ArticlesResponseModel>> GetArticlesInformation(int id)
         {
             if (id <= 0)
             {
@@ -62,7 +62,7 @@ namespace ElipgoBE.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("UpdateArticle")]
-        public async Task<IActionResult> UpdateArticle(int id, ArticlesInformation articlesInformation)
+        public async Task<ActionResult<ArticlesResponseModel>> UpdateArticle(int id, ArticlesInformation articlesInformation)
         {
             var findArticle = _context.Articles.Find(id);
             if (findArticle == null)
@@ -72,7 +72,7 @@ namespace ElipgoBE.Models
             _context.Entry(findArticle).State = EntityState.Detached;
             try
             {
-                return Ok(await _articlesServices.UpdateArticle(articlesInformation));
+                return Ok(await _articlesServices.UpdateArticle(articlesInformation, findArticle));
             }
             catch (Exception e)
             {
@@ -84,7 +84,7 @@ namespace ElipgoBE.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("AddArticle")]
-        public async Task<IActionResult> AddArticle(ArticlesInformation articlesInformation)
+        public async Task<ActionResult<ArticlesResponseModel>> AddArticle(ArticlesInformation articlesInformation)
         {
             try
             {

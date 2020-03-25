@@ -14,7 +14,7 @@ namespace ElipgoBE.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -46,8 +46,6 @@ namespace ElipgoBE.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Store_Id");
 
                     b.ToTable("Articles");
                 });
@@ -94,15 +92,6 @@ namespace ElipgoBE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Stores");
-                });
-
-            modelBuilder.Entity("ElipgoBE.Models.ArticlesInformation", b =>
-                {
-                    b.HasOne("ElipgoBE.Models.StoresInformation", "StoresInformation")
-                        .WithMany()
-                        .HasForeignKey("Store_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

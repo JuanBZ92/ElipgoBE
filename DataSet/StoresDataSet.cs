@@ -19,7 +19,7 @@ namespace ElipgoBE.DataSet
         {
             try
             {
-                IList<StoresInformation> storesInformation = await _context.Stores.ToListAsync();
+                List<StoresInformation> storesInformation = await _context.Stores.ToListAsync();
                 StoresResponseModel storesResponseModel = StoresResponseModel.Map(storesInformation);
                 return storesResponseModel;
             }
@@ -29,15 +29,23 @@ namespace ElipgoBE.DataSet
             }
         }
 
-        public async Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation)
+        public async Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation, StoresInformation originalInformation)
         {
             try
             {
-                _context.Entry(storesInformation).State = EntityState.Modified;
+                var updateInfo = StoresInformation.MapUpdate(storesInformation, originalInformation);
+                StoresResponseModel response = new StoresResponseModel();
+                _context.Entry(updateInfo).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                IList<StoresInformation> _storesInformation = await _context.Stores.ToListAsync();
-                StoresResponseModel storesResponseModel = StoresResponseModel.Map(_storesInformation);
-                return storesResponseModel;
+                var list = await (from d in _context.Stores
+                            select new StoresInformation()
+                            {
+                                Id = d.Id,
+                                Address = d.Address,
+                                Name = d.Name
+                            }).ToListAsync();
+                response = StoresResponseModel.Map(list);
+                return response;
             }
             catch (Exception e)
             {
@@ -51,7 +59,7 @@ namespace ElipgoBE.DataSet
             {
                 _context.Stores.Add(storesInformation);
                 await _context.SaveChangesAsync();
-                var response = await _context.Stores.Where(x => x.Id == storesInformation.Id).ToListAsync();
+                List<StoresInformation> response = await _context.Stores.Where(x => x.Id == storesInformation.Id).ToListAsync();
                 StoresResponseModel storesResponseModel = StoresResponseModel.Map(response);
                 return storesResponseModel;
             }

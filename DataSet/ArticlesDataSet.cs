@@ -19,7 +19,7 @@ namespace ElipgoBE.DataSet
         {
             try
             {
-                IList<ArticlesInformation> articlesInformation = await _context.Articles.ToListAsync();
+                List<ArticlesInformation> articlesInformation = await _context.Articles.ToListAsync();
                 ArticlesResponseModel articlesResponseModel = ArticlesResponseModel.Map(articlesInformation);
                 return articlesResponseModel;
             }
@@ -33,9 +33,21 @@ namespace ElipgoBE.DataSet
         {
             try
             {
-                var response = await _context.Articles.Where(x => x.Store_Id == id).ToListAsync();
-                ArticlesResponseModel articlesResponseModel = ArticlesResponseModel.Map(response);
-                return articlesResponseModel;
+                ArticlesResponseModel response = new ArticlesResponseModel();
+                var list = await (from d in _context.Articles
+                            where d.Store_Id == id
+                            select new ArticlesInformation()
+                            {
+                                Id = d.Id,
+                                Description = d.Description,
+                                Name = d.Name,
+                                Price = d.Price,
+                                Store_Id = d.Store_Id,
+                                Total_In_Shelf = d.Total_In_Shelf,
+                                Total_In_Vault = d.Total_In_Vault
+                            }).ToListAsync();
+                response = ArticlesResponseModel.Map(list);
+                return response;
             }
             catch (Exception e)
             {
@@ -43,13 +55,14 @@ namespace ElipgoBE.DataSet
             }
         }
 
-        public async Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation)
+        public async Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation, ArticlesInformation originalInformation)
         {
             try
             {
-                _context.Entry(articlesInformation).State = EntityState.Modified;
+                var updateInfo = ArticlesInformation.MapUpdate(articlesInformation, originalInformation);
+                _context.Entry(updateInfo).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                IList<ArticlesInformation> _articlesInformation = await _context.Articles.ToListAsync();
+                List<ArticlesInformation> _articlesInformation = await _context.Articles.Where(x => x.Id == articlesInformation.Id).ToListAsync();
                 ArticlesResponseModel articlesResponseModel = ArticlesResponseModel.Map(_articlesInformation);
                 return articlesResponseModel;
             }
@@ -65,7 +78,7 @@ namespace ElipgoBE.DataSet
             {
                 _context.Articles.Add(articlesInformation);
                 await _context.SaveChangesAsync();
-                var response = await _context.Articles.Where(x => x.Store_Id == articlesInformation.Store_Id).ToListAsync();
+                List<ArticlesInformation> response = await _context.Articles.Where(x => x.Store_Id == articlesInformation.Store_Id).ToListAsync();
                 ArticlesResponseModel articlesResponseModel = ArticlesResponseModel.Map(response);
                 return articlesResponseModel;
             }

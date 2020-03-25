@@ -10,7 +10,7 @@ namespace ElipgoBE.DataSet
     {
         Task<ArticlesResponseModel> GetAllArticles();
         Task<ArticlesResponseModel> GetArticlesByStore(int id);
-        Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation);
+        Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation, ArticlesInformation originalInformation);
         Task<ArticlesResponseModel> AddArticle(ArticlesInformation articlesInformation);
     }
 }

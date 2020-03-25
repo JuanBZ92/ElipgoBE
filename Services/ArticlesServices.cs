@@ -25,9 +25,9 @@ namespace ElipgoBE.Services
             return await _articlesDataSet.GetArticlesByStore(id);
         }
 
-        public async Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation)
+        public async Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation, ArticlesInformation originalInformation)
         {
-            return await _articlesDataSet.UpdateArticle(articlesInformation);
+            return await _articlesDataSet.UpdateArticle(articlesInformation, originalInformation);
         }
 
         public async Task<ArticlesResponseModel> AddArticle(ArticlesInformation articlesInformation)
