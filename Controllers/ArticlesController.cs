@@ -64,11 +64,13 @@ namespace ElipgoBE.Models
         [HttpPut("UpdateArticle")]
         public async Task<ActionResult<ArticlesResponseModel>> UpdateArticle(int id, ArticlesInformation articlesInformation)
         {
+            // find article to update if not return not found
             var findArticle = _context.Articles.Find(id);
             if (findArticle == null)
             {
                 return NotFound();
             }
+            // detach to use again later on dataset
             _context.Entry(findArticle).State = EntityState.Detached;
             try
             {
@@ -86,8 +88,9 @@ namespace ElipgoBE.Models
         [HttpPost("AddArticle")]
         public async Task<ActionResult<ArticlesResponseModel>> AddArticle(ArticlesInformation articlesInformation)
         {
-            var findArticle = _context.Stores.Find(articlesInformation.Store_Id);
-            if (findArticle == null)
+            // find store to add article if not return not found
+            var findStore = _context.Stores.Find(articlesInformation.Store_Id);
+            if (findStore == null)
             {
                 return NotFound();
             }

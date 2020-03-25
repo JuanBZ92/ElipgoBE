@@ -17,6 +17,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<StoresResponseModel> GetAllStores()
         {
+            // get all stores using ef code first context
             try
             {
                 List<StoresInformation> storesInformation = await _context.Stores.ToListAsync();
@@ -31,6 +32,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<StoresResponseModel> UpdateStore(StoresInformation storesInformation, StoresInformation originalInformation)
         {
+            // update store using context and returning info with linq
             try
             {
                 var updateInfo = StoresInformation.MapUpdate(storesInformation, originalInformation);
@@ -55,6 +57,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<StoresResponseModel> AddStore(StoresInformation storesInformation)
         {
+            //add store using context and returning info with lambdas and context.
             try
             {
                 _context.Stores.Add(storesInformation);

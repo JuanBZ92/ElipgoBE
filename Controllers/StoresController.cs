@@ -43,11 +43,13 @@ namespace ElipgoBE.Controllers
         [HttpPut("UpdateStore")]
         public async Task<IActionResult> UpdateStore(int id, StoresInformation storesInformation)
         {
+            // find store if note return error
             var findStore = _context.Stores.Find(id);
             if (findStore == null)
             {
                 return NotFound();
             }
+            //detach for later use
             _context.Entry(findStore).State = EntityState.Detached;
             try
             {

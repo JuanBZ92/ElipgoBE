@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElipgoBE.DataSet
 {
+    // usé varias maneras para traer la informacion para mostrar diferentes tecnicas.
     public class ArticlesDataSet : IArticlesDataSet
     {
         private readonly MyDbContext _context;
@@ -17,6 +18,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<ArticlesResponseModel> GetAllArticles()
         {
+            //get all articles using ef code first context
             try
             {
                 List<ArticlesInformation> articlesInformation = await _context.Articles.ToListAsync();
@@ -31,6 +33,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<ArticlesResponseModel> GetArticlesByStore(int id)
         {
+            // get articles by store using linq
             try
             {
                 ArticlesResponseModel response = new ArticlesResponseModel();
@@ -57,6 +60,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<ArticlesResponseModel> UpdateArticle(ArticlesInformation articlesInformation, ArticlesInformation originalInformation)
         {
+            // update article using context and returning info using lambdas
             try
             {
                 var updateInfo = ArticlesInformation.MapUpdate(articlesInformation, originalInformation);
@@ -74,6 +78,7 @@ namespace ElipgoBE.DataSet
 
         public async Task<ArticlesResponseModel> AddArticle(ArticlesInformation articlesInformation)
         {
+            // update article using context and returning info using lambdas
             try
             {
                 _context.Articles.Add(articlesInformation);
