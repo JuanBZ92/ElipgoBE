@@ -25,7 +25,7 @@ namespace ElipgoBE.Controllers
 
         // GET: api/StoresInformations
         [HttpGet]
-        public async Task<ActionResult<StoresResponseModel>> GetStoresInformation()
+        public async Task<IActionResult> GetStoresInformation()
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ElipgoBE.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("AddStore")]
-        public async Task<ActionResult<StoresResponseModel>> AddStore(StoresInformation storesInformation)
+        public async Task<IActionResult> AddStore(StoresInformation storesInformation)
         {
             try
             {
@@ -78,26 +78,5 @@ namespace ElipgoBE.Controllers
                 return BadRequest(ErrorResponse.Map(e));
             }
         }
-
-        /*// DELETE: api/StoresInformations/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<StoresInformation>> DeleteStoresInformation(int id)
-        {
-            var storesInformation = await _context.StoresInformation.FindAsync(id);
-            if (storesInformation == null)
-            {
-                return NotFound();
-            }
-
-            _context.StoresInformation.Remove(storesInformation);
-            await _context.SaveChangesAsync();
-
-            return storesInformation;
-        }
-
-        private bool StoresInformationExists(int id)
-        {
-            return _context.StoresInformation.Any(e => e.Id == id);
-        }*/
     }
 }

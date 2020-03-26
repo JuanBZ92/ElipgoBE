@@ -22,7 +22,7 @@ namespace ElipgoBE.Models
 
         // GET: api/ArticlesInformations
         [HttpGet]
-        public async Task<ActionResult<ArticlesResponseModel>> GetArticlesInformation()
+        public async Task<IActionResult> GetAllArticles()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace ElipgoBE.Models
 
         // GET: api/ArticlesInformations/5
         [HttpGet("stores/{id}")]
-        public async Task<ActionResult<ArticlesResponseModel>> GetArticlesInformation(int id)
+        public async Task<IActionResult> GetArticlesByStore(int id)
         {
             if (id <= 0)
             {
@@ -62,7 +62,7 @@ namespace ElipgoBE.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("UpdateArticle")]
-        public async Task<ActionResult<ArticlesResponseModel>> UpdateArticle(int id, ArticlesInformation articlesInformation)
+        public async Task<IActionResult> UpdateArticle(int id, ArticlesInformation articlesInformation)
         {
             // find article to update if not return not found
             var findArticle = _context.Articles.Find(id);
@@ -86,7 +86,7 @@ namespace ElipgoBE.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("AddArticle")]
-        public async Task<ActionResult<ArticlesResponseModel>> AddArticle(ArticlesInformation articlesInformation)
+        public async Task<IActionResult> AddArticle(ArticlesInformation articlesInformation)
         {
             // find store to add article if not return not found
             var findStore = _context.Stores.Find(articlesInformation.Store_Id);
@@ -105,26 +105,5 @@ namespace ElipgoBE.Models
                 return BadRequest(ErrorResponse.Map(e));
             }
         }
-
-        /*// DELETE: api/ArticlesInformations/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ArticlesInformation>> DeleteArticlesInformation(int id)
-        {
-            var articlesInformation = await _context.ArticlesInformation.FindAsync(id);
-            if (articlesInformation == null)
-            {
-                return NotFound();
-            }
-
-            _context.ArticlesInformation.Remove(articlesInformation);
-            await _context.SaveChangesAsync();
-
-            return articlesInformation;
-        }
-
-        private bool ArticlesInformationExists(int id)
-        {
-            return _context.ArticlesInformation.Any(e => e.Id == id);
-        }*/
     }
 }
