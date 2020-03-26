@@ -98,7 +98,7 @@ namespace ElipgoBE.Models
             try
             {
                 var response = await _articlesServices.AddArticle(articlesInformation);
-                return CreatedAtAction("GetArticlesInformation", new { id = articlesInformation.Id }, response);
+                return Ok(response);
             }
             catch (Exception e)
             {

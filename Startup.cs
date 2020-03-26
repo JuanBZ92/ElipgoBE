@@ -30,6 +30,15 @@ namespace ElipgoBE
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddMvc().AddNewtonsoftJson();
+            services.AddScoped<StoresServices>();
+            services.AddScoped<StoresDataSet>();
+            services.AddScoped<ArticlesServices>();
+            services.AddScoped<ArticlesDataSet>();
+            services.AddScoped<LoginService>();
+            services.AddScoped<LoginDataSet>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(AllowedCors,
@@ -46,13 +55,6 @@ namespace ElipgoBE
             services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(connection));
 
-            services.AddMvc().AddNewtonsoftJson();
-            services.AddScoped<StoresServices>();
-            services.AddScoped<StoresDataSet>();
-            services.AddScoped<ArticlesServices>();
-            services.AddScoped<ArticlesDataSet>();
-            services.AddScoped<LoginService>();
-            services.AddScoped<LoginDataSet>();
             services.AddControllers().AddNewtonsoftJson();
         }
 
