@@ -42,7 +42,7 @@ namespace ElipgoBE
                 });
             });
 
-            var connection = @"Data Source=34.95.220.97;User Id=sqlserver;Password=sqlserver;Database=ElipgoDB;";
+            var connection = @"Data Source=35.199.80.25;User Id=sqlserver;Password=sqlserver;Database=ElipgoDB;";
             services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(connection));
 
