@@ -51,7 +51,7 @@ namespace ElipgoBE
                 });
             });
 
-            var connection = @"Server=DESKTOP-DV1AH5C\SQLEXPRESS;Database=ElipgoDB;Trusted_Connection=True;";
+            var connection = @"Data Source=DESKTOP-DV1AH5C\SQLEXPRESS;Database=ElipgoDB;Trusted_Connection=True;";
             services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(connection));
 
